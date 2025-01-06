@@ -1,0 +1,2066 @@
+/*
+ * Author       : arkodeepkoley123
+ * Generated on : 05-Jan-2025 22:34:57
+ * Version      : 1.0
+ */
+ application "Library System Application"
+ {
+ 	date format = "dd-MMM-yyyy"
+ 	time zone = "UTC"
+ 	time format = "24-hr"
+ 	section Home
+	{
+		icon = "ui-1-home-minimal"
+		page Dashboards
+		{
+			displayname = "Dashboards"
+			icon = "ui-1-dashboard-half"
+			Content="<zml    \t\t\n\t\t\n\t\t\n\t\t\n\t\t\n>\n\t<layout>\n\t<row>\n\t<column\n   \t\t width=\"100%\"\n   \t>\n\t<chart \n\telementName=\"Chart\"\n\n\ttype = 'Pie'\n\txtitle = 'Genre'\n\tytitle = 'Transactions on Genre'\n\tbgColor = '#FFFFFF'\n\ttheme = 'theme1'\n\tlegendPos = 'center.top'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'Transactions_Module'\n\txfield = 'Book.Genre'\n\tyfields = 'count:Transaction_ID'\n\/>\n\n<\/column>\n<\/row><row>\n\t<column\n   \t\t width=\"100%\"\n   \t>\n\t<chart \n\telementName=\"Chart 1\"\n\n\ttype = 'Column'\n\txtitle = 'Members'\n\tytitle = 'Number of Transactions'\n\tbgColor = '#FFFFFF'\n\ttheme = 'theme1'\n\tlegendPos = 'center.top'\n\tappLinkName = 'thisapp'\n\tformLinkName = 'Transactions_Module'\n\txfield = 'Member.Member_ID'\n\tyfields = 'count:Transaction_ID'\n\/>\n\n<\/column>\n<\/row>\n<\/layout>\n<\/zml>"
+		}
+	}
+	section Books_Module
+	{
+		displayname= "Books Module"
+		icon = "education-books-46"
+		form Books_Module
+		{
+			displayname = "Books Module"
+			success message = "Data Added Successfully!"
+			field alignment = top
+			Title
+			(
+				type = section
+				displayname = "Author"
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Auto_Number
+			(
+    			type = autonumber
+				displayname = "Auto Number"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Book_ID
+			(
+    			type = text
+				displayname = "Book ID"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Title1
+			(
+    			type = text
+				displayname = "Title"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Author
+			(
+    			type = text
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Genre
+			(
+				type = picklist
+				maxchar = 100
+				values = {"Fiction","Non-Fiction","Sci-Fi","Biography"}
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Publication_Year
+			(
+				type = number
+				displayname = "Publication Year"
+				maxchar = 4
+				initial value = 1900
+    			description
+    			[
+    				type = tooltip
+    			 	message = "Only valid years between 1900 and the current \nyear"
+    			]
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Available_Copies
+			(
+				type = number
+				displayname = "Available Copies"
+				initial value = 0
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			unique ISBN_Number
+			(
+    			type = text
+				displayname = "ISBN Number"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Rating
+			(
+				type = number
+				maxchar = 1
+				initial value = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Formula
+			(
+    			type = formula
+				value =  Available_Copies >= 0
+				visibility = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Formula1
+			(
+    			type = formula
+				displayname = "Formula"
+				value =  Rating <= 5 && Rating >= 0
+				visibility = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Formula2
+			(
+    			type = formula
+				displayname = "Formula"
+				value =  Publication_Year >= 1900 && Publication_Year <= zoho.currentdate.getYear()
+				visibility = false
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Featured
+			(
+				type = checkboxes	
+				values = {"Featured"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			customize
+			(
+				icon = "education-books-46"
+			)
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		default list Books_Module_Report
+		{
+			displayName = "Books Module Report"
+			show all rows from Books_Module    
+			(
+				Genre
+				Publication_Year as "Publication Year"
+				Title1 as "Title"
+				Author
+				Available_Copies as "Available Copies"
+				ISBN_Number as "ISBN Number"
+				Rating
+				Formula
+				Formula1 as "Formula"
+				Formula2 as "Formula"
+				Book_ID as "Book ID"
+				Auto_Number as "Auto Number"
+				Featured
+			)
+			options
+			(
+				icon = "education-book-open"
+	 		)
+			quickview
+			(
+				layout
+				(
+		 			type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Genre
+							Publication_Year as "Publication Year"
+							Title1 as "Title"
+							Author
+							Available_Copies as "Available Copies"
+							ISBN_Number as "ISBN Number"
+							Auto_Number as "Auto Number"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Genre
+							Publication_Year as "Publication Year"
+							Title1 as "Title"
+							Author
+							Available_Copies as "Available Copies"
+							ISBN_Number as "ISBN Number"
+							Rating
+							Formula
+							Formula1 as "Formula"
+							Formula2 as "Formula"
+							Book_ID as "Book ID"
+							Auto_Number as "Auto Number"
+							Featured
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+		pivotchart Book_Genre
+		{ 
+			displayname = "Book Genre"
+			legend = RIGHT
+			report properties
+			(
+				records displayed = all_records
+				allow export = false
+				allow drilldown and view underlying data = false
+		
+			)
+
+			based on Autoview_1736080503676_Books_Module
+							icon = "education-book-open"				show all rows from Books_Module
+				(
+			Auto_Number  as "Auto Number"
+			Book_ID  as "Book ID"
+			Title1  as "Title"
+			Author 
+			Genre 
+			Publication_Year  as "Publication Year"
+			Available_Copies  as "Available Copies"
+			ISBN_Number  as "ISBN Number"
+			Rating 
+			Formula 
+			Formula1 
+			Formula2 
+				)
+		}
+	}
+	section Members_Module
+	{
+		displayname= "Members Module"
+		icon = "tech-2-l-search"
+		form Members_Module
+		{
+			displayname = "Members Module"
+			success message = "Data Added Successfully!"
+			field alignment = left
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Auto_Number
+			(
+    			type = autonumber
+				displayname = "Auto Number"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Member_ID
+			(
+    			type = text
+				displayname = "Member ID"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Name
+			(
+    			type = name
+     			prefix
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name
+     			(
+	     			 type = first_name
+	     			 displayname ="First Name"
+     			) 
+     			last_name
+     			(
+	     			 type = last_name
+	     			 displayname ="Last Name"
+	     			 visibility = false
+     			) 
+     			suffix
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			unique Email
+			(
+    			type = email
+				maxchar = 80
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			must have Phone_Number1
+			(
+    			type = phonenumber
+				displayname = "Phone Number"
+	 			row = 1
+	 			column = 1   
+				width = medium
+				personal data = true
+			)
+			Membership_Start_Date
+			(
+    			type = date
+				displayname = "Membership Start Date"
+				initial value = "${zoho.currentdate}"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Membership_Typ
+			(
+				type = picklist
+				displayname = "Membership Type"
+				maxchar = 100
+				values = {"Basic","Premium","Elite"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Max_Books_Allowed
+			(
+				type = number
+				displayname = "Max Books Allowed"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			customize
+			(
+				icon = "tech-2-l-search"
+			)
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		default list Members_Module_Report
+		{
+			displayName = "Members Module Report"
+			show all rows from Members_Module    
+			(
+				Name 
+	 			(
+	      			displayformat = [first_name+""+prefix+""+last_name+""+suffix]
+	 			)
+				Email
+				Phone_Number1 as "Phone Number"
+				(
+					displayformat = plainnumber 
+					linktodial = enable
+				)
+				Membership_Start_Date as "Membership Start Date"
+				Membership_Typ as "Membership Type"
+				Max_Books_Allowed as "Max Books Allowed"
+				Member_ID as "Member ID"
+				Auto_Number as "Auto Number"
+			)
+			options
+			(
+				icon = "business-laptop-71"
+	 		)
+			quickview
+			(
+				layout
+				(
+		 			type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Name
+							Email
+							Phone_Number1 as "Phone Number"
+							Membership_Start_Date as "Membership Start Date"
+							Membership_Typ as "Membership Type"
+							Max_Books_Allowed as "Max Books Allowed"
+							Auto_Number as "Auto Number"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Name
+							Email
+							Phone_Number1 as "Phone Number"
+							Membership_Start_Date as "Membership Start Date"
+							Membership_Typ as "Membership Type"
+							Max_Books_Allowed as "Max Books Allowed"
+							Member_ID as "Member ID"
+							Auto_Number as "Auto Number"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+		list Top_10_members_with_the_most_books
+		{
+			displayName = "Top 10 members with the most books"
+			show all rows from Members_Module    
+			(
+				Auto_Number as "Auto Number"
+				Member_ID as "Member ID"
+				Name 
+	 			(
+	      			displayformat = [first_name+""+prefix+""+last_name+""+suffix]
+	 			)
+				Email
+				Phone_Number1 as "Phone Number"
+				(
+					displayformat = plainnumber 
+					linktodial = enable
+				)
+				Membership_Start_Date as "Membership Start Date"
+				Membership_Typ as "Membership Type"
+				Max_Books_Allowed as "Max Books Allowed"
+			)
+			options
+			(
+				icon = "business-progress"
+	 		)
+			quickview
+			(
+				layout
+				(
+		 			type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Auto_Number as "Auto Number"
+							Member_ID as "Member ID"
+							Name
+							Email
+							Phone_Number1 as "Phone Number"
+							Membership_Start_Date as "Membership Start Date"
+							Membership_Typ as "Membership Type"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Auto_Number as "Auto Number"
+							Member_ID as "Member ID"
+							Name
+							Email
+							Phone_Number1 as "Phone Number"
+							Membership_Start_Date as "Membership Start Date"
+							Membership_Typ as "Membership Type"
+							Max_Books_Allowed as "Max Books Allowed"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+	}
+	section Transactions_Module
+	{
+		displayname= "Transactions Module"
+		icon = "design-usb"
+		form Transactions_Module
+		{
+			displayname = "Transactions Module"
+			success message = "Data Added Successfully!"
+			field alignment = left
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Auto_Number
+			(
+    			type = autonumber
+				displayname = "Auto Number"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Transaction_ID
+			(
+    			type = text
+				displayname = "Transaction ID"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Member
+			(
+				type = picklist	
+				values  = Members_Module.ID
+    			displayformat = [Member_ID]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Book
+			(
+				type = picklist	
+				values  = Books_Module.ID
+    			displayformat = [Book_ID]
+				sortorder = ascending
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Issue_Date
+			(
+    			type = date
+				displayname = "Issue Date"
+				initial value = "${zoho.currentdate}"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Return_Date
+			(
+    			type = date
+				displayname = "Return Date"
+				alloweddays = 0,1,2,3,4,5,6
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Status
+			(
+				type = picklist
+				maxchar = 100
+				values = {"Issued","Returned","Overdue"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Fine_Amount
+			(
+				displayname = "Fine Amount"
+				type = INR
+				format = commadotindian
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Notes
+			(
+    			type = textarea
+				height = 100px
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			customize
+			(
+				icon = "design-usb"
+			)
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		default list Transactions_Module_Report
+		{
+			displayName = "Transactions Module Report"
+			show all rows from Transactions_Module    
+			(
+				Issue_Date as "Issue Date"
+				Return_Date as "Return Date"
+				Status
+				Fine_Amount as "Fine Amount"
+				Transaction_ID as "Transaction ID"
+				Auto_Number as "Auto Number"
+				Member
+				Book
+				Notes
+			)
+			options
+			(
+				icon = "ui-1-database"
+	 		)
+			quickview
+			(
+				layout
+				(
+		 			type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Issue_Date as "Issue Date"
+							Return_Date as "Return Date"
+							Status
+							Fine_Amount as "Fine Amount"
+							Transaction_ID as "Transaction ID"
+							Auto_Number as "Auto Number"
+							Member
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Issue_Date as "Issue Date"
+							Return_Date as "Return Date"
+							Status
+							Fine_Amount as "Fine Amount"
+							Transaction_ID as "Transaction ID"
+							Auto_Number as "Auto Number"
+							Member
+							Book
+							Notes
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+		list Overdue_Transactions
+		{
+			displayName = "Overdue Transactions"
+			show all rows from Transactions_Module  [Status == "Overdue"]  
+			(
+				Auto_Number as "Auto Number"
+				Transaction_ID as "Transaction ID"
+				Member
+				Book
+				Issue_Date as "Issue Date"
+				Return_Date as "Return Date"
+				Status
+				Fine_Amount as "Fine Amount"
+			)
+			options
+			(
+				icon = "shopping-receipt"
+	 		)
+			quickview
+			(
+				layout
+				(
+		 			type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Member
+							Book
+							Issue_Date as "Issue Date"
+							Status
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Auto_Number as "Auto Number"
+							Transaction_ID as "Transaction ID"
+							Member
+							Book
+							Issue_Date as "Issue Date"
+							Return_Date as "Return Date"
+							Status
+							Fine_Amount as "Fine Amount"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+		list OverDue_Report_Version_2_0
+		{
+			displayName = "OverDue Report Version 2.0"
+			show all rows from Transactions_Module  [Status == "Overdue"]  
+			(
+				Auto_Number as "Auto Number"
+				Transaction_ID as "Transaction ID"
+				Member
+				(
+					view = Members_Module_Report
+				)
+				Book
+				(
+					view = Books_Module_Report
+				)
+				Issue_Date as "Issue Date"
+				Return_Date as "Return Date"
+				Status
+				Fine_Amount as "Fine Amount"
+			)
+			options
+			(
+				icon = "business-laptop-71"
+	 		)
+			quickview
+			(
+				layout
+				(
+		 			type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Transaction_ID as "Transaction ID"
+							Member
+							Book
+							Fine_Amount as "Fine Amount"
+							Issue_Date as "Issue Date"
+							Return_Date as "Return Date"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Auto_Number as "Auto Number"
+							Transaction_ID as "Transaction ID"
+							Member
+							Book
+							Issue_Date as "Issue Date"
+							Return_Date as "Return Date"
+							Status
+							Fine_Amount as "Fine Amount"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+		list Top_Members_Report_2_0
+		{
+			displayName = "Top Members Report 2.0"
+			show all rows from Transactions_Module  [Issue_Date < zoho.currentdate]  
+			(
+				Auto_Number as "Auto Number"
+				Transaction_ID as "Transaction ID"
+				Member
+				Book
+				Issue_Date as "Issue Date"
+				Return_Date as "Return Date"
+				Status
+				Fine_Amount as "Fine Amount"
+			)
+			group by
+			(
+				Member ascending
+			)
+			sort by
+			(
+				Transaction_ID descending
+			)
+			options
+			(
+				icon = "business-progress"
+	 		)
+			quickview
+			(
+				layout
+				(
+		 			type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Auto_Number as "Auto Number"
+							Transaction_ID as "Transaction ID"
+							Member
+							Book
+							Issue_Date as "Issue Date"
+							Return_Date as "Return Date"
+							Status
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Auto_Number as "Auto Number"
+							Transaction_ID as "Transaction ID"
+							Member
+							Book
+							Issue_Date as "Issue Date"
+							Return_Date as "Return Date"
+							Status
+							Fine_Amount as "Fine Amount"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+	}
+	section Staff_Members_Module
+	{
+		displayname= "Staff Members Module"
+		icon = "holidays-sickle"
+		form Staff_Members
+		{
+			displayname = "Staff Members"
+			success message = "Staff Member Added Successfully"
+			field alignment = left
+			Section
+			(
+				type = section
+	 			row = 1
+	 			column = 0   
+				width = medium
+			)
+			Auto_Number
+			(
+    			type = autonumber
+				displayname = "Auto Number"
+				start index = 1
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Staff_ID
+			(
+    			type = text
+				displayname = "Staff ID"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Name
+			(
+    			type = name
+     			prefix
+     			(
+	     			 type = prefix
+	     			 displayname ="Prefix"
+	     			 visibility = false
+	     			 value = {"Mr.","Mrs.","Ms."}
+     			) 
+     			first_name
+     			(
+	     			 type = first_name
+	     			 displayname ="First Name"
+     			) 
+     			last_name
+     			(
+	     			 type = last_name
+	     			 displayname ="Last Name"
+     			) 
+     			suffix
+     			(
+	     			 type = suffix
+	     			 displayname ="Suffix"
+	     			 visibility = false
+     			) 
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Email
+			(
+    			type = email
+				maxchar = 80
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			Role
+			(
+				type = radiobuttons
+				maxchar = 100
+				values = {"Librarian","Assistant"}
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+			must have Phone_Number
+			(
+    			type = phonenumber
+				displayname = "Phone Number"
+	 			row = 1
+	 			column = 1   
+				width = medium
+			)
+	
+			customize
+			(
+				icon = "holidays-sickle"
+			)
+			actions
+			{
+				on add
+				{
+					submit
+					(
+   						type = submit
+   						displayname = "Submit"
+					)
+					reset
+					(
+   						type = reset
+   						displayname = "Reset"
+					)
+				}
+				on edit
+				{
+					update
+					(
+   						type = submit
+   						displayname = "Update"
+					)
+					cancel
+					(
+   						type = cancel
+   						displayname = "Cancel"
+					)
+				}
+			}
+		}
+		default list All_Staff_Members
+		{
+			displayName = "All Staff Members"
+			show all rows from Staff_Members    
+			(
+				Name 
+	 			(
+	      			displayformat = [first_name+""+prefix+""+last_name+""+suffix]
+	 			)
+				Email
+				Role
+				Phone_Number as "Phone Number"
+				Staff_ID as "Staff ID"
+				Auto_Number as "Auto Number"
+			)
+			options
+			(
+				icon = "travel-world"
+	 		)
+			quickview
+			(
+				layout
+				(
+		 			type = -1
+					datablock1
+					(
+						layout type = -1
+						fields
+						(
+							Name
+							Email
+							Role
+							Phone_Number as "Phone Number"
+							Staff_ID as "Staff ID"
+							Auto_Number as "Auto Number"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+					record
+					(
+						Edit   	   
+						Duplicate   	   
+						Delete   	   
+    				)
+    			)
+    			action
+    			(
+					on click
+					(
+						View Record   	   
+    				)
+					on right click
+					(
+						Edit   	   
+						Delete   	   
+						Duplicate   	   
+						View Record   	   
+    				)
+     			)
+			)
+			detailview
+			(
+				layout
+				(
+		 			type = 1
+					datablock1
+					(
+						layout type = -2
+						fields
+						(
+							Name
+							Email
+							Role
+							Phone_Number as "Phone Number"
+							Staff_ID as "Staff ID"
+							Auto_Number as "Auto Number"
+						)
+					)
+				)
+				menu
+    			(
+    	 			header
+    	 			(
+    		 			Edit 
+    		 			Duplicate 
+    		 			Delete 
+    	 			)
+    			)
+			)
+		}
+	}
+	section New_Section
+	{
+		displayname= "New Section"
+	}
+
+
+
+
+
+
+		workflow
+		{
+		form
+		{
+			Book_ID_AutoGenerate as "Book ID AutoGenerate"
+			{
+				type =  form
+				form = Books_Module
+				record event = on add
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											LatestValue = Books_Module[ID != 0].maximum(Auto_Number);
+										newValue = ifnull(LatestValue,0) + 1;
+										input.Book_ID = "BOOK" + newValue;
+						)
+					}
+				}
+
+			}
+			MemberID as "MemberID"
+			{
+				type =  form
+				form = Members_Module
+				record event = on add
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											LatestValue = Members_Module[ID != 0].maximum(Auto_Number);
+										newValue = ifnull(LatestValue,0) + 1;
+										input.Member_ID = "MEM" + newValue;
+						)
+					}
+				}
+
+			}
+			MaxBooks as "MaxBooks"
+			{
+				type =  form
+				form = Members_Module
+				record event = on add
+
+				on user input of Membership_Typ
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											if(input.Membership_Typ == "Basic")
+										{
+											input.Max_Books_Allowed = 2;
+										}
+										else if(input.Membership_Typ == "Premium")
+										{
+											input.Max_Books_Allowed = 5;
+										}
+										else
+										{
+											input.Max_Books_Allowed = 10;
+										}
+						)
+					}
+				}
+
+			}
+			TransactionID as "TransactionID"
+			{
+				type =  form
+				form = Transactions_Module
+				record event = on add
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											LatestValue = Transactions_Module[ID != 0].maximum(Auto_Number);
+										newValue = ifnull(LatestValue,0) + 1;
+										input.Transaction_ID = "TRA" + newValue;
+						)
+					}
+				}
+
+			}
+			RetDate as "RetDate"
+			{
+				type =  form
+				form = Transactions_Module
+				record event = on add
+
+				on user input of Return_Date
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											if(input.Return_Date < input.Issue_Date)
+										{
+											alert "Return must be greater than Issue Date";
+											input.Return_Date = null;
+										}
+						)
+					}
+				}
+
+			}
+			Fine as "Fine"
+			{
+				type =  form
+				form = Transactions_Module
+				record event = on add
+
+				on user input of Status
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											if(input.Status == "Overdue")
+										{
+											input.Fine_Amount = 10;
+										}
+										else
+										{
+											input.Fine_Amount = 0;
+										}
+						)
+					}
+				}
+
+			}
+			StaffID as "StaffID"
+			{
+				type =  form
+				form = Staff_Members
+				record event = on add
+
+				on load
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											LatestValue = Staff_Members[ID != 0].maximum(Auto_Number);
+										newValue = ifnull(LatestValue,0) + 1;
+										input.Staff_ID = "STF" + newValue;
+						)
+					}
+				}
+
+			}
+			PublicationYear as "PublicationYear"
+			{
+				type =  form
+				form = Books_Module
+				record event = on add
+
+				on user input of Publication_Year
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											currentYear = zoho.currentdate.getYear();
+										if(input.Publication_Year < 1900 || input.Publication_Year > currentYear)
+										{
+											alert "Please enter a valid publication Year";
+											input.Publication_Year = null;
+										}
+						)
+					}
+				}
+
+			}
+			PreventTransaction as "PreventTransaction"
+			{
+				type =  form
+				form = Transactions_Module
+				record event = on add
+
+				on user input of Book
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											selected_book = Books_Module[ID == input.Book];
+										if(selected_book.Available_Copies < 0)
+										{
+											alert "Transaction cannot be processed because no copies are available";
+											input.Book = null;
+										}
+						)
+					}
+				}
+
+			}
+			DecreaseCount as "DecreaseCount"
+			{
+				type =  form
+				form = Transactions_Module
+				record event = on add
+
+				on success
+				{
+					actions  (Status == "Issued")
+					{
+						custom deluge script
+						(
+											// Fetch the selected book record
+										selected_book = Books_Module[ID == input.Book];
+										// Decrease Available Copies by 1 if it's greater than 0
+										if(selected_book.Available_Copies > 0)
+										{
+											selected_book.Available_Copies=selected_book.Available_Copies - 1;
+										}
+										else
+										{
+											input.Book = null;
+										}
+						)
+					}
+					actions  (Status == "Returned")
+					{
+						custom deluge script
+						(
+											// Fetch the selected book record
+										selected_book = Books_Module[ID == input.Book];
+										// Increase Available Copies by 1
+										selected_book.Available_Copies=selected_book.Available_Copies + 1;
+						)
+					}
+				}
+
+			}
+			NotifyOverdue as "NotifyOverdue"
+			{
+				type =  form
+				form = Transactions_Module
+				record event = on add
+
+				on success
+				{
+					actions  (Status == "Overdue")
+					{
+						custom deluge script
+						(
+											// Fetch member details
+										selected_member = Members_Module[ID == input.Member];
+										// Fetch book details
+										selected_book = Books_Module[ID == input.Book];
+										// Compose the email content
+										email_subject = "Overdue Book Notice: " + selected_book.Title1;
+										email_body = ("Dear " + selected_member.Name) + ",\n\n" + "This is a reminder that the book you borrowed, \"" + selected_book.Title1 + "\", is overdue.\n" + "Here are the details:\n" + "- Issue Date: " + input.Issue_Date.toString("dd-MMM-yyyy") + "\n" + "- Return Date: " + input.Return_Date.toString("dd-MMM-yyyy") + "\n" + "- Fine Amount: $" + input.Fine_Amount.toString() + "\n\n" + "Please return the book as soon as possible to avoid additional fines.\n\n" + "Thank you,\nLibrary Management";
+										// Send the email
+										sendmail
+										[
+											from :zoho.adminuserid
+											to :selected_member.Email
+											subject :email_subject
+											message :email_body
+										]
+						)
+					}
+				}
+
+			}
+			SuccessFul as "SuccessFul"
+			{
+				type =  form
+				form = Members_Module
+				record event = on add
+
+				on success
+				{
+					actions 
+					{
+						custom deluge script
+						(
+											// Compose the email content
+										email_subject = "Welcome to Our Library, " + input.Name + "!";
+										email_body = "Dear " + input.Name + ",\n\n" + "Welcome to our library! We are thrilled to have you as a member.\n\n" + "Here are your membership details:\n" + "- Membership Type: " + input.Membership_Typ + "\n" + "- Membership Start Date: " + input.Membership_Start_Date.toString("dd-MMM-yyyy") + "\n" + "- Maximum Books Allowed: " + input.Max_Books_Allowed.toString() + "\n\n" + "We hope you enjoy our collection of books and have a great reading experience!\n\n" + "Thank you,\nLibrary Management";
+										// Send the email
+										sendmail
+										[
+											from :zoho.adminuserid
+											to :input.Email
+											subject :email_subject
+											message :email_body
+										]
+						)
+					}
+				}
+
+			}
+			Permissions as "Permissions"
+			{
+				type =  form
+				form = Staff_Members
+				record event = on add
+
+				on success
+				{
+				}
+
+			}
+			Mark_as_Lost as "Mark as Lost"
+			{
+				type =  form
+				form = Transactions_Module
+				record event = on add or edit
+
+				on load
+				{
+				}
+
+			}
+		}
+
+
+
+
+
+
+	}
+	share_settings
+	{
+			"Read"
+			{
+				name = "Read"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have read permission for all components\n"
+			}
+			"Write"
+			{
+				name = "Write"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have write permission for all components\n"
+			}
+			"Assitant Permissions"
+			{
+				name = "Assitant Permissions"
+				type = Users_Permissions
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Allow only view access to:\nBooks Module\nMembers Module\n"
+				ModulePermissions
+				{
+					Books_Module
+					{
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Books_Module_Report={"View"}
+						}
+					}
+					Staff_Members
+					{
+						allFieldsVisible= true 
+					}
+					Members_Module
+					{
+						allFieldsVisible= true 
+						ReportPermissions
+						{
+							Members_Module_Report={"View"}
+						}
+					}
+					Transactions_Module
+					{
+						allFieldsVisible= true 
+					}
+				}
+			}
+			"Administrator"
+			{
+				name = "Administrator"
+				type = Users_Permissions
+				permissions = {Chat:true, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This profile will have all the permissions.\n"
+			}
+			"Librarian Permissions"
+			{
+				name = "Librarian Permissions"
+				type = Users_Permissions
+				permissions = {Chat:false, Predefined:false, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "Allow full access (view, add, edit, delete) to:\nTransactions Module (to issue and return books).\nBooks Module (optional, for managing book details).\nMembers Module (optional, for member management).\n"
+				ModulePermissions
+				{
+					Books_Module
+					{
+						enabled= Create,Tab 
+						allFieldsVisible= true 
+					}
+					Staff_Members
+					{
+						enabled= Create,Tab 
+						allFieldsVisible= true 
+					}
+					Members_Module
+					{
+						enabled= Create,Tab 
+						allFieldsVisible= true 
+					}
+					Transactions_Module
+					{
+						enabled= Create,Tab 
+						allFieldsVisible= true 
+					}
+				}
+			}
+			"Customer"
+			{
+				name = "Customer"
+				type = Customer_Portal
+				permissions = {Chat:false, Predefined:true, ApiAccess:true, PIIAccess:true, ePHIAccess:true}
+				description = "This is the default profile having only add and view permission.\n"
+			}
+			roles
+			{
+				"CEO"
+				{
+					description = "User belonging to this role can access data of all other users."
+					"Librarian"
+					{
+						description = ""
+						"Assistant"
+						{
+							description = ""
+						}
+					}
+				}
+			}
+	}
+
+	customize
+	{
+		
+		layout = "tab"
+		color = "black"
+		base theme = "professional"
+		new theme = 11
+		icons = true
+		icons style = outline
+		font = "lato"
+		color options
+    	{
+        color = "1"
+    	}
+    	logo
+    	{
+        	preference = "app_icon"
+        	placement = "left"
+    	}
+	}
+
+
+	phone
+	{
+		section  Orders_Dashboard
+		{
+			displayname= "Orders Dashboard"
+			icon = "design-align-left"
+			page Dashboards
+			{
+				icon = "ui-1-dashboard-half"
+			}
+		}
+		section  Books_Module
+		{
+			displayname= "Books Module"
+			form  Books_Module
+			{
+				layout = auto
+				icon = "education-books-46"
+			}
+			list Books_Module_Report
+			{
+				icon = "education-book-open"
+			}
+						pivotchart Book_Genre
+			{
+				icon = "education-book-open"
+			}
+		}
+		section  Members_Module
+		{
+			displayname= "Members Module"
+			form  Members_Module
+			{
+				layout = auto
+				icon = "tech-2-l-search"
+			}
+			list Members_Module_Report
+			{
+				icon = "business-laptop-71"
+			}
+			list Top_10_members_with_the_most_books
+			{
+				icon = "business-progress"
+			}
+		}
+		section  Transactions_Module
+		{
+			displayname= "Transactions Module"
+			form  Transactions_Module
+			{
+				layout = auto
+				icon = "design-usb"
+			}
+			list Transactions_Module_Report
+			{
+				icon = "ui-1-database"
+			}
+			list Overdue_Transactions
+			{
+				icon = "shopping-receipt"
+			}
+			list OverDue_Report_Version_2_0
+			{
+				icon = "business-laptop-71"
+			}
+			list Top_Members_Report_2_0
+			{
+				icon = "business-progress"
+			}
+		}
+		section  Staff_Members
+		{
+			displayname= "Staff Members"
+			form  Staff_Members
+			{
+				layout = auto
+				icon = "holidays-sickle"
+			}
+			list All_Staff_Members
+			{
+				icon = "travel-world"
+			}
+		}
+		customize
+		{
+        	layout = onecolumn
+		 	icons style = outline
+        	font = "default"
+            style = "1"
+        	color options
+        	{
+             	color = darkgrey
+         	}
+         	logo
+         	{
+             	preference = "app_icon"
+         	}
+		}
+	}
+	tablet
+	{
+		customize
+		{
+        	layout = slidingpane
+		 	icons style = outline
+        	font = "default"
+            style = "1"
+        	color options
+        	{
+             	color = darkgrey
+         	}
+         	logo
+         	{
+             	preference = "none"
+         	}
+		}
+	}
+	translation
+{
+{"Language_Settings":{"LANGAGUE_WITH_LOGIN":"browser"}}
+}
+	reports configuration
+	{
+	
+		Version = 2000035333425
+		Key     = "2U30F2shS2UaOvQJ22e7TD52VENY4sCfpj5TvGqJUhmqvgyx3QrO4wy5Hk9AgE8a7ZMdvMw6ESAP6Sbwsy0OjPZdNXbKPSCxwd5U"
+	}
+}
